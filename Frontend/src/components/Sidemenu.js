@@ -93,7 +93,7 @@ function SideMenu({ isOpen, setIsOpen, smartAccount, logout, address }) {
                   <div className=" mashiha divide-gray-900 bg-gray-900 text-white-900" >
                     <div className="px-4 mm  sm:px-6">
                       <div className="flex items-start justify-between">
-                        <h2 className="text-llg font-medium text-white">Linea Club</h2>
+                        <h2 className="text-llg font-medium text-white">EtherLink DAO</h2>
                         
                       </div>
                       
