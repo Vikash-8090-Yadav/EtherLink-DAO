@@ -61,7 +61,7 @@ window.changeProposal=(proposalId)=> {
       theadTr.appendChild(descriptionHeader);
       
       var amountHeader = document.createElement('th');
-      amountHeader.innerHTML = '<i class="fas fa-coins mr-1"></i>Amount (ETH)';
+              amountHeader.innerHTML = '<i class="fas fa-coins mr-1"></i>Amount (XTZ)';
       amountHeader.className = 'text-center';
       theadTr.appendChild(amountHeader);
       
@@ -105,7 +105,7 @@ window.changeProposal=(proposalId)=> {
         amountTd.className = 'text-center align-middle';
         var amountBadge = document.createElement('span');
         amountBadge.className = 'badge badge-success badge-pill';
-        amountBadge.innerHTML = '<i class="fas fa-coins mr-1"></i>' + web3.utils.fromWei(valor.amount.toString(),'ether') + ' ETH';
+        amountBadge.innerHTML = '<i class="fas fa-coins mr-1"></i>' + web3.utils.fromWei(valor.amount.toString(),'ether') + ' XTZ';
         amountTd.appendChild(amountBadge);
         tbodyTr.appendChild(amountTd);
         
