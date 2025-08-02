@@ -252,113 +252,82 @@ async function verify(){
 
 }
 async function voteOnProposal() {
-  try {
-    var filWalletAddress = localStorage.getItem("filWalletAddress");
-    await getContract(filWalletAddress);
-    
-    if(contractPublic == undefined) {
-      toast.error("Contract not initialized");
-      return;
-    }
+  var filWalletAddress = localStorage.getItem("filWalletAddress");
+  await getContract(filWalletAddress);
+  
+  var clubId = localStorage.getItem("clubId");
+  var proposalId = localStorage.getItem("proposalId");
 
-    var clubId = localStorage.getItem("clubId");
-    var proposalId = localStorage.getItem("proposalId");
-    
-    if(!clubId || !proposalId) {
-      toast.error("Club ID or Proposal ID not found");
-      return;
-    }
-
-    var option_vote = $('#option_vote').val();
-    
-    // Input validation
+  if(contractPublic != undefined) {
+    var option_vote = $('#option_vote').val()
     if(option_vote == '') {
-      $('#errorVote').css("display","block");
-      $('#errorVote').text("Please select your vote (For or Against)");
+      $('#errorCreateProposal').css("display","block");
+      $('#errorCreateProposal').text("Vote is required");
       return;
     }
-
-    // Show loading state
+   
     $('.successVote').css("display","block");
-    $('.successVote').text("Submitting vote...");
-    $('.errorVote').css("display","none");
+    $('.successVote').text("Voting...");
     
     var optionBool = option_vote == '1' ? true : false;
-    const voteText = optionBool ? "FOR" : "AGAINST";
-    
     try {
-      // Check if voting is still active
-      const isVotingActive = await contractPublic.methods.isVotingOn(clubId, proposalId).call();
+      const ans  = await contractPublic.methods.isVotingOn(clubId,proposalId).call();
+
+      console.log("ans",ans)
+     
+      if(!ans){
+        $('.successVote').css("display","none");
+        $('.errorVote').css("display","block");
+        $('.errorVote').text("Voting time periods is over!");
+        toast.error("Voting time periods is over!");
        
-      if(!isVotingActive) {
-        $('.successVote').css("display","none");
-        $('.errorVote').css("display","block");
-        $('.errorVote').text("Voting period has ended!");
-        toast.error("Voting period has ended!");
         return;
       }
       
-      // Check if user has already voted
-      const hasVoted = await contractPublic.methods.hasVoted(clubId, proposalId, filWalletAddress).call();
-      if(hasVoted) {
-        $('.successVote').css("display","none");
-        $('.errorVote').css("display","block");
-        $('.errorVote').text("You have already voted on this proposal");
-        toast.error("You have already voted on this proposal");
-        return;
-      }
-      
-            // Submit vote
+      const query = contractPublic.methods.voteOnProposal(clubId,proposalId, optionBool);
+      const encodedABI = query.encodeABI();
+
       const abi = ABI.abi;
       const iface = new ethers.utils.Interface(abi);
-      const encodedData = iface.encodeFunctionData("voteOnProposal", [clubId, proposalId, optionBool]);
-      
+      const encodedData = iface.encodeFunctionData("voteOnProposal", [clubId,proposalId, optionBool]);
+      const GAS_MANAGER_POLICY_ID = "479c3127-fb07-4cc6-abce-d73a447d2c01";
+  
       const signer = provider.getSigner();
+
+      console.log("singer",signer);
       const tx = {
         to: marketplaceAddress,
         data: encodedData,
       };
-      
       const txResponse = await signer.sendTransaction(tx);
       const txReceipt = await txResponse.wait();
 
       notification.success({
-        message: 'Vote Submitted Successfully',
+        message: 'Transaction Successful',
         description: (
           <div>
-            <p>Your vote ({voteText}) has been submitted successfully!</p>
-            <p>Transaction Hash: <a href={`${networkConfig.blockExplorerUrl}/tx/${txReceipt.transactionHash}`} target="_blank" rel="noopener noreferrer">{txReceipt.transactionHash}</a></p>
+            Transaction Hash: <a href={`https://sepolia.lineascan.build/tx/${txReceipt.transactionHash}`} target="_blank" rel="noopener noreferrer">{txReceipt.transactionHash}</a>
           </div>
         )
       });
-      
-      console.log("Vote submitted:", txReceipt.transactionHash);
-      
-      // Clear form and show success
-      $('#option_vote').val('');
-      $('.errorVote').css("display","none");
-      $('.successVote').css("display","block");
-      $('.successVote').text(`Your vote (${voteText}) was submitted successfully!`);
-      
-      // Refresh page after 3 seconds to show updated vote counts
-      setTimeout(() => {
-        window.location.reload();
-      }, 3000);
-      
+      console.log(txReceipt.transactionHash);
+ 
     } catch (error) {
-      console.error("Vote error:", error);
-      toast.error("Failed to submit vote");
+      console.log(error.message);
+      
+    
       $('.successVote').css("display","none");
       $('.errorVote').css("display","block");
-      $('.errorVote').text("Failed to submit vote: " + error.message);
+      $('.errorVote').text("You already voted on this proposal");
+      return;
     }
     
-  } catch (error) {
-    console.error("Vote proposal error:", error);
-    toast.error("An error occurred while voting");
-    $('.successVote').css("display","none");
-    $('.errorVote').css("display","block");
-    $('.errorVote').text("An error occurred: " + error.message);
+    $('#option_vote').val('');
+    $('#errorVote').css("display","none");
+    $('#successVote').css("display","block");
+    $('#successVote').text("Your vote was successful ");
+    window.location.reload();
+    
   }
 }
 
@@ -804,6 +773,8 @@ function Proposal() {
                       </div>
                     </div>
                     
+
+                    
                     <div className="row mt-3">
                       <div className="col-12">
                         <button 
@@ -838,6 +809,24 @@ function Proposal() {
                     />
                     <div
                       className="errorVote alert alert-danger"
+                      style={{ display: "none" }}
+                    />
+                    <div
+                      id="successVote"
+                      className="alert alert-success"
+                      style={{ display: "none" }}
+                    />
+                    <div
+                      id="errorCreateProposal"
+                      className="alert alert-danger"
+                      style={{ display: "none" }}
+                    />
+                    <div
+                      className="valid-feedback"
+                      style={{ display: "none" }}
+                    />
+                    <div
+                      className="invalid-feedback"
                       style={{ display: "none" }}
                     />
                   </div>
