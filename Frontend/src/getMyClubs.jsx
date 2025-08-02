@@ -39,65 +39,104 @@ async function GetMyClubs() {
     if(clubs.length > 0) {
 
       var list = document.querySelector('.my_clubs');
-        var table = document.createElement('table');
-        var thead = document.createElement('thead');
-        var tbody = document.createElement('tbody');
+      
+      // Clear loading message
+      list.innerHTML = '';
+      
+      // Create enhanced table structure
+      var table = document.createElement('table');
+      var thead = document.createElement('thead');
+      var tbody = document.createElement('tbody');
 
-        var theadTr = document.createElement('tr');
-        var balanceHeader = document.createElement('th');
-        balanceHeader.innerHTML = 'ID';
-        theadTr.appendChild(balanceHeader);
-        var contractNameHeader = document.createElement('th');
-        contractNameHeader.innerHTML = 'Name';
-        theadTr.appendChild(contractNameHeader);
-        var contractTickerHeader = document.createElement('th');
-        contractTickerHeader.innerHTML = 'Members';
-        theadTr.appendChild(contractTickerHeader);
-        
-        var usdHeader = document.createElement('th');
-        usdHeader.innerHTML = 'Proposals';
-        theadTr.appendChild(usdHeader);
-        
-        
-        thead.appendChild(theadTr)
+      // Create enhanced header
+      var theadTr = document.createElement('tr');
+      
+      var idHeader = document.createElement('th');
+      idHeader.innerHTML = '<i class="fas fa-hashtag mr-1"></i>Club ID';
+      idHeader.className = 'text-center';
+      theadTr.appendChild(idHeader);
+      
+      var nameHeader = document.createElement('th');
+      nameHeader.innerHTML = '<i class="fas fa-tag mr-1"></i>Club Name';
+      theadTr.appendChild(nameHeader);
+      
+      var membersHeader = document.createElement('th');
+      membersHeader.innerHTML = '<i class="fas fa-users mr-1"></i>Members';
+      membersHeader.className = 'text-center';
+      theadTr.appendChild(membersHeader);
+      
+      var proposalsHeader = document.createElement('th');
+      proposalsHeader.innerHTML = '<i class="fas fa-file-alt mr-1"></i>Proposals';
+      proposalsHeader.className = 'text-center';
+      theadTr.appendChild(proposalsHeader);
+      
+      var actionsHeader = document.createElement('th');
+      actionsHeader.innerHTML = '<i class="fas fa-cogs mr-1"></i>Actions';
+      actionsHeader.className = 'text-center';
+      theadTr.appendChild(actionsHeader);
+      
+      thead.appendChild(theadTr);
+      thead.className = 'thead-dark';
 
-        table.className = 'table';
-        table.appendChild(thead);
-        clubs.forEach((valor) => {
-         
-          if(valor.clubId != 0) {
-            var tbodyTr = document.createElement('tr');
-        var contractTd = document.createElement('td');
-        var clubLink = document.createElement('a');
-    clubLink.className = 'btn btn-success';
-    clubLink.textContent = valor.clubId;
-    clubLink.addEventListener('click', function() {
-      changeClub(valor.clubId);
-    });
-    // var clubItem = document.createElement('div');
+      table.className = 'table table-hover table-striped';
+      table.appendChild(thead);
+      
+      clubs.forEach((valor) => {
+        if(valor.clubId != 0) {
+          var tbodyTr = document.createElement('tr');
+          tbodyTr.className = 'club-row';
+          
+          // Club ID column
+          var idTd = document.createElement('td');
+          idTd.className = 'text-center align-middle';
+          var idBadge = document.createElement('span');
+          idBadge.className = 'badge badge-primary badge-pill';
+          idBadge.textContent = valor.clubId;
+          idTd.appendChild(idBadge);
+          tbodyTr.appendChild(idTd);
+          
+          // Club Name column
+          var nameTd = document.createElement('td');
+          nameTd.className = 'align-middle';
+          nameTd.innerHTML = '<strong class="text-primary">' + valor.name + '</strong>';
+          tbodyTr.appendChild(nameTd);
+          
+          // Members column
+          var membersTd = document.createElement('td');
+          membersTd.className = 'text-center align-middle';
+          var membersBadge = document.createElement('span');
+          membersBadge.className = 'badge badge-info badge-pill';
+          membersBadge.innerHTML = '<i class="fas fa-users mr-1"></i>' + valor.memberCount;
+          membersTd.appendChild(membersBadge);
+          tbodyTr.appendChild(membersTd);
+          
+          // Proposals column
+          var proposalsTd = document.createElement('td');
+          proposalsTd.className = 'text-center align-middle';
+          var proposalsBadge = document.createElement('span');
+          proposalsBadge.className = 'badge badge-warning badge-pill';
+          proposalsBadge.innerHTML = '<i class="fas fa-file-alt mr-1"></i>' + valor.proposalCount;
+          proposalsTd.appendChild(proposalsBadge);
+          tbodyTr.appendChild(proposalsTd);
+          
+          // Actions column
+          var actionsTd = document.createElement('td');
+          actionsTd.className = 'text-center align-middle';
+          var viewButton = document.createElement('button');
+          viewButton.className = 'btn btn-success btn-sm';
+          viewButton.innerHTML = '<i class="fas fa-eye mr-1"></i>View Club';
+          viewButton.addEventListener('click', function() {
+            changeClub(valor.clubId);
+          });
+          actionsTd.appendChild(viewButton);
+          tbodyTr.appendChild(actionsTd);
 
-        // contractTd.innerHTML = "<a class='btn btn-success' onclick='changeClub(" + valor.clubId + ")'>"+valor.clubId+"</a>";
-        tbodyTr.appendChild(clubLink);
-        var contractTickerTd = document.createElement('td');
-        contractTickerTd.innerHTML = '<b>' + valor.name + '</b>';
-        tbodyTr.appendChild(contractTickerTd);
-        var balanceTd = document.createElement('td');
-        balanceTd.innerHTML = '<b>' + valor.memberCount + '</b>';
-        tbodyTr.appendChild(balanceTd);
-        var balanceUSDTd = document.createElement('td');
-        balanceUSDTd.innerHTML = '<b>' + valor.proposalCount+ '</b>';
-        tbodyTr.appendChild(balanceUSDTd);
-
-        
-
-        tbody.appendChild(tbodyTr);
-          }
-        
+          tbody.appendChild(tbodyTr);
+        }
       });
 
       table.appendChild(tbody);
-
-        list.appendChild(table);
+      list.appendChild(table);
     }
     $('.loading_message').css('display','none');
   }
