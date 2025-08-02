@@ -9,21 +9,23 @@ import "./sidemenu.css";
 import $, { error } from 'jquery'; 
 
 import {Web3} from 'web3';
+import { getCurrentNetworkConfig } from '../config/network';
 
 const accountAddress = localStorage.getItem("filWalletAddress");
 
-const web3 = new Web3(new Web3.providers.HttpProvider("https://rpc.sepolia.linea.build"));
+const networkConfig = getCurrentNetworkConfig();
+const web3 = new Web3(new Web3.providers.HttpProvider(networkConfig.rpcUrl));
 
 function SideMenu({ isOpen, setIsOpen, smartAccount, logout, address }) {
 
   const address1 = localStorage.getItem("filWalletAddress");
 
   function hndclck(){
-    window.open(`https://sepolia.lineascan.build/address/${address1}`, '_blank');
+    window.open(`${networkConfig.blockExplorerUrl}/address/${address1}`, '_blank');
   }
 
   function testclk(){
-    window.open('https://www.infura.io/faucet/linea', '_blank');
+    window.open(networkConfig.faucetUrl, '_blank');
   }
 
   const [value, setValue] = useState(0);
