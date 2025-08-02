@@ -55,6 +55,26 @@ var clubId = localStorage.getItem("clubId");
       $('#proposal_status').text(clubs.status);
       $('#votes_for').text(clubs.votesFor);
       $('#votes_against').text(clubs.votesAgainst);
+      
+      // Update progress bars
+      const votesFor = parseInt(clubs.votesFor);
+      const votesAgainst = parseInt(clubs.votesAgainst);
+      const totalVotes = votesFor + votesAgainst;
+      
+      if (totalVotes > 0) {
+        const forPercentage = Math.round((votesFor / totalVotes) * 100);
+        const againstPercentage = Math.round((votesAgainst / totalVotes) * 100);
+        
+        $('#votes_for_progress').css('width', forPercentage + '%');
+        $('#votes_for_progress span').text(forPercentage + '%');
+        $('#votes_against_progress').css('width', againstPercentage + '%');
+        $('#votes_against_progress span').text(againstPercentage + '%');
+      } else {
+        $('#votes_for_progress').css('width', '50%');
+        $('#votes_for_progress span').text('0%');
+        $('#votes_against_progress').css('width', '50%');
+        $('#votes_against_progress span').text('0%');
+      }
       $('#CID').text(clubs.Cid);
    
       var comp = clubs.creator.toLowerCase()
@@ -64,6 +84,11 @@ var clubId = localStorage.getItem("clubId");
       }
       if(clubs.status != 'Pending') {
         $('.votes_available').css('display','none');
+        $('#voting_status').html('<i class="fas fa-lock mr-1"></i>Voting Ended');
+        $('#voting_status').removeClass('badge-info').addClass('badge-secondary');
+      } else {
+        $('#voting_status').html('<i class="fas fa-clock mr-1"></i>Voting Active');
+        $('#voting_status').removeClass('badge-secondary').addClass('badge-info');
       }
 
       $('#proposalExpireAt').text(new Date(Number(clubs.proposalExpireAt) * 1000).toLocaleString());

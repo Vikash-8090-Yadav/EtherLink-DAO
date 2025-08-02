@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
-import lighthouse from '@lighthouse-web3/sdk'
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Tg from '../components/toggle';
 import { notification } from 'antd';
@@ -24,7 +22,6 @@ const provider = new ethers.providers.Web3Provider(window.ethereum);
 
 
 
-const apiKey = "207e0c12.0ca654f5c03a4be18a3185ea63c31f81"
 var contractPublic = null;
 
 
@@ -62,25 +59,7 @@ function CreateClub() {
     }
   }
 
-  const register_job = async(cid1) =>{
-    const formData = new FormData();
-    const cid = cid1
-    const requestReceivedTime = new Date()
-    
-    const endDate = requestReceivedTime.setMonth(requestReceivedTime.getMonth() + 1)
-    const replicationTarget = 2
-    const epochs = 4 // how many epochs before deal end should deal be renewed
-    formData.append('cid', cid)
-    formData.append('endDate', endDate)
-    formData.append('replicationTarget', replicationTarget)
-    formData.append('epochs', epochs)
 
-    const response = await axios.post(
-        `https://calibration.lighthouse.storage/api/register_job`,
-        formData
-    )
-    console.log(response.data)
-}
 
 
   async function createClub() {
@@ -126,37 +105,11 @@ function CreateClub() {
       
       if(my_wallet !== undefined)
       {
-        toast.success('Uploaded to LightHouse', {
-          position: "top-right",
-          autoClose: 15000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-          });
-        const data = JSON.stringify({
-          clubName,
-
-        });
-
-
-        const dealParams = {
-          num_copies: 2,
-          repair_threshold: 28800,
-          renew_threshold: 240,
-          miner: ["t017840"],
-          network: 'calibration',
-          add_mock_data: 2
-        };
-
-        const response = await lighthouse.uploadText(data, apiKey, clubName)
-
-        console.log("The cid is ",response.data.Hash);
-
-        const cid1 = response.data.Hash;
-        // await register_job(cid1);
+        // Generate a random string for CID
+        const randomString = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        const cid1 = "Qm" + randomString;
+        
+        console.log("Using random CID:", cid1);
 
 
       try

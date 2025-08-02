@@ -8,17 +8,13 @@ import ABI from "../SmartContract/artifacts/contracts/InvestmentClub.sol/Investm
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import lighthouse from '@lighthouse-web3/sdk'
-import axios from 'axios';
 import { notification } from 'antd';
 import GetClub from "../getclub";
 import { getCurrentNetworkConfig } from '../config/network';
 
 const networkConfig = getCurrentNetworkConfig();
 const web3 = new Web3(new Web3.providers.HttpProvider(networkConfig.rpcUrl));
-const apiKey = "207e0c12.0ca654f5c03a4be18a3185ea63c31f81"
 var contractPublic = null;
-var cid = null;
 const ethers = require("ethers")
 
 
@@ -32,35 +28,7 @@ async function getContract(userAddress) {
 }
 
 
-async function Registerjob(){
 
-  const formData = new FormData();
-  const requestReceivedTime = new Date()
-  
-  const endDate = requestReceivedTime.setMonth(requestReceivedTime.getMonth() + 1)
-  const replicationTarget = 2
-  const epochs = 4 // how many epochs before deal end should deal be renewed
-  formData.append('cid', cid)
-  formData.append('endDate', endDate)
-  formData.append('replicationTarget', replicationTarget)
-  formData.append('epochs', epochs)
-
-  const response = await axios.post(
-      `https://calibration.lighthouse.storage/api/register_job`,
-      formData
-  )
-  console.log(response.data)
-  toast.success('RAAS JOB Registered Sucessfully', {
-    position: "top-right",
-    autoClose: 15000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "dark",
-    });
-}
 function CreateProposal() {
 
 
@@ -118,7 +86,7 @@ function CreateProposal() {
         $('.loading_message_creating').css("display","block");
         proposal_amount = web3.utils.toWei(proposal_amount.toString(), 'ether');
 
-        toast.success("Proposal Uploaded to LightHouse")
+        toast.success("Proposal created successfully")
 
         const proposal = JSON.stringify({
           clubId,proposal_amount, proposal_address, proposal_description,description
@@ -126,20 +94,13 @@ function CreateProposal() {
         });
         
 
-        const data = JSON.stringify({
-          proposal
-
-        });
-
-
-        const response = await lighthouse.uploadText(data, apiKey, proposal_description)
-
-        console.log("The cid is ",response.data.Hash);
-        const cid11 = response.data.Hash;
+        // Generate a random string for CID
+        const randomString = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        const cid = "Qm" + randomString;
+        
+        console.log("Using random CID:", cid);
         var proposalId = localStorage.getItem("proposalId");
-        localStorage.setItem(proposalId-100,cid11);
-
-        cid = response.data.Hash;
+        localStorage.setItem(proposalId-100, cid);
         
         
 
@@ -461,7 +422,7 @@ onChange={(e) => setDestination(e.target.value)}
                       <input
                         type="button"
                         id="createProposalButton"
-                        defaultValue="Create and Upload to LightHouse"
+                        defaultValue="Create Proposal"
                         onClick={() => {
                           createProposal();
                         }}
