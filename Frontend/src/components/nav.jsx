@@ -8,17 +8,20 @@ import {Web3} from 'web3';
 import SideMenu from './Sidemenu';
 
 
+import { getCurrentNetworkConfig } from '../config/network';
+
+const networkConfig = getCurrentNetworkConfig();
 const networks = {
     Etherlink: {
-    chainId: `0x${Number(128123).toString(16)}`,
-    chainName: "Etherlink",
+    chainId: `0x${Number(networkConfig.chainId).toString(16)}`,
+    chainName: networkConfig.chainName,
     nativeCurrency: {
-      name: "Etherlink",
-      symbol: "ETH",
-      decimals: 18,
+      name: networkConfig.nativeCurrency.name,
+      symbol: networkConfig.nativeCurrency.symbol,
+      decimals: networkConfig.nativeCurrency.decimals,
     },
-    rpcUrls: ["https://node.ghostnet.etherlink.com"],
-    blockExplorerUrls: ['https://ghostnet.etherlink.com/'],
+    rpcUrls: [networkConfig.rpcUrl],
+    blockExplorerUrls: [networkConfig.blockExplorerUrl],
 
   },
 };
