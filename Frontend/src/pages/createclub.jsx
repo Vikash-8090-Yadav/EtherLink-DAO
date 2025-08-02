@@ -12,8 +12,11 @@ import { marketplaceAddress } from "../config";
 import {Web3} from 'web3';
 import $ from 'jquery'; 
 import ABI from "../SmartContract/artifacts/contracts/InvestmentClub.sol/InvestmentClub.json"
+import { getCurrentNetworkConfig } from '../config/network';
 const ethers = require("ethers")
-const web3 = new Web3(new Web3.providers.HttpProvider("https://rpc.sepolia.linea.build"));
+
+const networkConfig = getCurrentNetworkConfig();
+const web3 = new Web3(new Web3.providers.HttpProvider(networkConfig.rpcUrl));
 
 
 
@@ -194,7 +197,7 @@ function CreateClub() {
                 message: 'Transaction Successful',
                 description: (
                   <div>
-                   Transaction Hash: <a href={`https://sepolia.lineascan.build/tx/${txReceipt.transactionHash}`} target="_blank" rel="noopener noreferrer">{txReceipt.transactionHash}</a>
+                   Transaction Hash: <a href={`${networkConfig.blockExplorerUrl}/tx/${txReceipt.transactionHash}`} target="_blank" rel="noopener noreferrer">{txReceipt.transactionHash}</a>
                   </div>
                 )
               });
