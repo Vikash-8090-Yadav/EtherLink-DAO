@@ -37,6 +37,13 @@ const NetworkDetector = () => {
       return;
     }
 
+    // Check if we're in a secure context (HTTPS or localhost)
+    if (!window.isSecureContext && window.location.hostname !== 'localhost') {
+      setIsWrongNetwork(true);
+      setCurrentNetwork('HTTPS Required');
+      return;
+    }
+
     try {
       const chainId = await window.ethereum.request({ method: 'eth_chainId' });
       const expectedChainId = `0x${networkConfig.chainId.toString(16)}`;
@@ -103,11 +110,21 @@ const NetworkDetector = () => {
             <h5 className="mb-0">Wrong Network Detected</h5>
           </div>
           
-          <div className="network-detector-body">
-            <p className="text-muted mb-3">
-              You are currently connected to a different network. 
-              EtherLink DAO requires the Etherlink testnet to function properly.
-            </p>
+                      <div className="network-detector-body">
+              {currentNetwork === 'HTTPS Required' ? (
+                <div className="alert alert-warning">
+                  <h6><i className="fas fa-lock mr-2"></i>HTTPS Required</h6>
+                  <p className="mb-0">
+                    MetaMask requires a secure connection (HTTPS) to connect to your wallet. 
+                    Please ensure you're accessing this site via HTTPS.
+                  </p>
+                </div>
+              ) : (
+                <p className="text-muted mb-3">
+                  You are currently connected to a different network. 
+                  EtherLink DAO requires the Etherlink testnet to function properly.
+                </p>
+              )}
             
             <div className="network-info mb-3">
               <div className="row">
