@@ -10,7 +10,7 @@ import { marketplaceAddress } from "../config";
 import {Web3} from 'web3';
 import { notification } from 'antd';
 import ABI from "../SmartContract/artifacts/contracts/InvestmentClub.sol/InvestmentClub.json"
-import { getCurrentNetworkConfig } from '../config/network';
+
 
 import axios from 'axios';
 import getProposalById from '../getProposalById';
@@ -18,6 +18,7 @@ import GetClub from '../getclub';
 import Tg from "../components/toggle";
 
 const ethers = require("ethers")
+import { getCurrentNetworkConfig } from '../config/network';
 
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 const DataDaoAddress  = "0x8138489b863a68f224307a5D0Fa630917d848e25"
