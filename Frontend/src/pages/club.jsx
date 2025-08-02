@@ -551,13 +551,25 @@ function Club() {
                   {/* Card Header - Dropdown */}
                   <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 className="m-0 font-weight-bold text-primary">
-                      Proposals
+                      <i className="fas fa-file-alt mr-2"></i>
+                      Club Proposals
                     </h6>
+                    <div className="d-flex align-items-center">
+                      <span className="badge badge-info mr-2">
+                        <i className="fas fa-chart-bar mr-1"></i>
+                        Active Proposals
+                      </span>
+                    </div>
                   </div>
                   {/* Card Body */}
                   <div className="card-body">
                     <div className="row available_proposals">
-                      <span className="loading_message">Loading...</span>
+                      <div className="col-12">
+                        <div className="loading_message text-center py-4">
+                          <i className="fas fa-spinner fa-spin mr-2"></i>
+                          Loading proposals...
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
