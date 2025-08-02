@@ -9,6 +9,7 @@ import SideMenu from './Sidemenu';
 
 
 import { getCurrentNetworkConfig } from '../config/network';
+import NetworkIndicator from './NetworkIndicator';
 
 const networkConfig = getCurrentNetworkConfig();
 const networks = {
@@ -148,7 +149,7 @@ function Nav() {
   href="/"
 >
   
-  <div className=" mmh text-lg mx-3">Linea Club</div>
+                  <div className=" mmh text-lg mx-3">EtherLink DAO</div>
 </a>
 </div>
   <button
@@ -203,6 +204,7 @@ function Nav() {
               </>
               )
               }
+              <NetworkIndicator />
               <div className="topbar-divider d-none d-sm-block" />
               {/* Nav Item - User Information */}
               
