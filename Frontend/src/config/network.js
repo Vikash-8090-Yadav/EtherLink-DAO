@@ -10,7 +10,7 @@ export const NETWORK_CONFIG = {
       decimals: 18,
     },
     blockExplorerUrl: "https://testnet.explorer.etherlink.com",
-    faucetUrl: "https://testnet.explorer.etherlink.com/faucet"
+    faucetUrl: "https://faucet.etherlink.com/"
   }
 };
 
