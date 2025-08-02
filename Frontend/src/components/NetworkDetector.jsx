@@ -31,6 +31,14 @@ const NetworkDetector = () => {
   }, []);
 
   const checkNetwork = async () => {
+    // Check if user is logged in (has wallet address)
+    const walletAddress = localStorage.getItem("filWalletAddress");
+    if (!walletAddress) {
+      // User not logged in, don't show network detection
+      setIsWrongNetwork(false);
+      return;
+    }
+
     if (!window.ethereum) {
       setIsWrongNetwork(true);
       setCurrentNetwork('No Wallet');
