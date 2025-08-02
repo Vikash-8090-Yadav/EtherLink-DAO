@@ -6,8 +6,10 @@ import { marketplaceAddress } from "./config";
 import {Web3} from 'web3';
 import $ from 'jquery'; 
 import ABI from "./SmartContract/artifacts/contracts/InvestmentClub.sol/InvestmentClub.json"
+import { getCurrentNetworkConfig } from './config/network';
 
-const web3 = new Web3(new Web3.providers.HttpProvider("https://rpc.sepolia.linea.build"));
+const networkConfig = getCurrentNetworkConfig();
+const web3 = new Web3(new Web3.providers.HttpProvider(networkConfig.rpcUrl));
 var contractPublic = null;
 
 
