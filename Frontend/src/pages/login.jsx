@@ -5,7 +5,10 @@ import $ from 'jquery';
 
 
 import Register from './register'
-const web3 = new Web3(new Web3.providers.HttpProvider("https://node.botanixlabs.dev"));
+import { getCurrentNetworkConfig } from '../config/network';
+
+const networkConfig = getCurrentNetworkConfig();
+const web3 = new Web3(new Web3.providers.HttpProvider(networkConfig.rpcUrl));
 var contractPublic = null;
 function Regis(){
 
