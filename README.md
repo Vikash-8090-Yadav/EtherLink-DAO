@@ -81,8 +81,6 @@ The club smart contract has some restrictions, similar to real hedge funds:
 
 ## What Next for EtherLink-DAO ?
 
-- ChainLink function (Twitter) -> I can use twitter function  to check the  latest post wether that person is fake or real
--  Ai for recommendation on user interest 
 -  Chat system b/w voter and  proposal owner
     
 <br>
