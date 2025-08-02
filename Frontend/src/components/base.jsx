@@ -78,6 +78,63 @@ function Base() {
 
   return (
     <div id="page-top">
+      <style>
+        {`
+          .table-hover tbody tr:hover {
+            background-color: rgba(0, 123, 255, 0.1) !important;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+          }
+          
+          .badge-pill {
+            border-radius: 50rem;
+            padding: 0.375rem 0.75rem;
+          }
+          
+          .club-row {
+            transition: all 0.3s ease;
+          }
+          
+          .btn-sm {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+            border-radius: 0.2rem;
+          }
+          
+          .thead-dark th {
+            background-color: #343a40;
+            border-color: #454d55;
+            color: white;
+            font-weight: 600;
+          }
+          
+          .table-striped tbody tr:nth-of-type(odd) {
+            background-color: rgba(0, 0, 0, 0.05);
+          }
+          
+          .text-primary {
+            color: #007bff !important;
+          }
+          
+          .text-info {
+            color: #17a2b8 !important;
+          }
+          
+          .text-warning {
+            color: #ffc107 !important;
+          }
+          
+          .bg-light {
+            background-color: #f8f9fa !important;
+          }
+          
+          .loading_message {
+            color: #6c757d;
+            font-style: italic;
+          }
+        `}
+      </style>
   {/* Page Wrapper */}
   <div id="wrapper">
     {/* Sidebar */}
@@ -210,14 +267,23 @@ function Base() {
                 {/* Card Header - Dropdown */}
                 <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                   <h6 className="m-0 font-weight-bold text-primary">
-                    My clubs
+                    <i className="fas fa-users mr-2"></i>
+                    My Investment Clubs
                   </h6>
+                  <div className="d-flex align-items-center">
+                    <span className="badge badge-primary mr-2">
+                      <i className="fas fa-chart-line mr-1"></i>
+                      Active Clubs
+                    </span>
+                  </div>
                 </div>
                 
                 {/* Card Body */}
                 <div className="card-body my_clubs">
-                  <span className="loading_message">Loading...</span>
-
+                  <div className="loading_message text-center py-4">
+                    <i className="fas fa-spinner fa-spin mr-2"></i>
+                    Loading your clubs...
+                  </div>
                 </div>
               </div>
               <div className="mmn">
