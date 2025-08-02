@@ -532,7 +532,7 @@ function Proposal() {
                   <div className="row no-gutters align-items-center">
                     <div className="col mr-2">
                       <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                        Club Balance (ETH)
+                        Club Balance (XTZ)
                       </div>
                       <div className="h5 mb-0 font-weight-bold text-gray-800 club_balance">
                         -
@@ -644,7 +644,7 @@ function Proposal() {
                         <div className="info-item mb-3">
                           <label className="text-muted small mb-1">Amount</label>
                           <div className="p-2 bg-light rounded">
-                            <span id="proposal_amount" className="font-weight-bold text-success" /> ETH
+                            <span id="proposal_amount" className="font-weight-bold text-success" /> XTZ
                           </div>
                         </div>
                         
