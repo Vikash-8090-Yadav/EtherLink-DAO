@@ -10,7 +10,7 @@ import { marketplaceAddress } from "../config";
 import {Web3} from 'web3';
 import { notification } from 'antd';
 import ABI from "../SmartContract/artifacts/contracts/InvestmentClub.sol/InvestmentClub.json"
-
+import { getCurrentNetworkConfig } from '../config/network';
 
 import axios from 'axios';
 import getProposalById from '../getProposalById';
@@ -19,10 +19,11 @@ import Tg from "../components/toggle";
 
 const ethers = require("ethers")
 
-
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 const DataDaoAddress  = "0x8138489b863a68f224307a5D0Fa630917d848e25"
-const web3 = new Web3(new Web3.providers.HttpProvider("https://rpc.sepolia.linea.build"));
+
+const networkConfig = getCurrentNetworkConfig();
+const web3 = new Web3(new Web3.providers.HttpProvider(networkConfig.rpcUrl));
 
 var contractPublic = null;
 
@@ -108,7 +109,7 @@ async function runProposal(event) {
                   message: 'Transaction Successful',
                   description: (
                     <div>
-                      Transaction Hash: <a href={`https://sepolia.lineascan.build/tx/${txReceipt.transactionHash}`} target="_blank" rel="noopener noreferrer">{txReceipt.transactionHash}</a>
+                      Transaction Hash: <a href={`${networkConfig.blockExplorerUrl}/tx/${txReceipt.transactionHash}`} target="_blank" rel="noopener noreferrer">{txReceipt.transactionHash}</a>
                     </div>
                   )
                 });
@@ -158,7 +159,7 @@ async function runProposal(event) {
               message: 'Transaction Successful',
               description: (
                 <div>
-                  Transaction Hash: <a href={`https://sepolia.lineascan.build/tx/${txReceipt.transactionHash}`} target="_blank" rel="noopener noreferrer">{txReceipt.transactionHash}</a>
+                  Transaction Hash: <a href={`${networkConfig.blockExplorerUrl}/tx/${txReceipt.transactionHash}`} target="_blank" rel="noopener noreferrer">{txReceipt.transactionHash}</a>
                 </div>
               )
             });
@@ -299,7 +300,7 @@ async function voteOnProposal() {
                 message: 'Transaction Successful',
                 description: (
                   <div>
-                    Transaction Hash: <a href={`https://sepolia.lineascan.build/tx/${txReceipt.transactionHash}`} target="_blank" rel="noopener noreferrer">{txReceipt.transactionHash}</a>
+                    Transaction Hash: <a href={`${networkConfig.blockExplorerUrl}/tx/${txReceipt.transactionHash}`} target="_blank" rel="noopener noreferrer">{txReceipt.transactionHash}</a>
                   </div>
                 )
               });
