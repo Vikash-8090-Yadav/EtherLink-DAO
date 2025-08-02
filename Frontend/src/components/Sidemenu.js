@@ -52,7 +52,7 @@ function SideMenu({ isOpen, setIsOpen, smartAccount, logout, address }) {
       // Assuming you've properly initialized the web3 instance before this point
       const balanceWei = await web3.eth.getBalance(myWallet);
       
-      // Convert Wei to Ether (assuming Ethereum)
+      // Convert Wei to XTZ (assuming Etherlink)
       const balanceEther = web3.utils.fromWei(balanceWei, "ether");
 
       setValue1(balanceEther);
