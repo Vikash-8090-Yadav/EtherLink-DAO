@@ -5,8 +5,10 @@ import { marketplaceAddress } from "../config";
 import {Web3} from 'web3';
 import $ from 'jquery'; 
 import ABI from "../SmartContract/artifacts/contracts/InvestmentClub.sol/InvestmentClub.json"
+import { getCurrentNetworkConfig } from '../config/network';
 
-const web3 = new Web3(new Web3.providers.HttpProvider("https://node.botanixlabs.dev"));
+const networkConfig = getCurrentNetworkConfig();
+const web3 = new Web3(new Web3.providers.HttpProvider(networkConfig.rpcUrl));
 var contractPublic = null;
 
 
@@ -86,7 +88,7 @@ function saveWallet() {
                   Private Key: <b><span id="filPrivateKey" /></b> <br />
                 </div>
                 <div className="col-sm-12 mb-6 mb-sm-0">
-                  Request some BTC TESNET from the faucet: <a href="https://botanixlabs.xyz/en/testnet" target="_blank" className="btn btn-success btn-user btn-block">Faucet</a>
+                  Request some XTZ from the faucet: <a href={networkConfig.faucetUrl} target="_blank" className="btn btn-success btn-user btn-block">Faucet</a>
                 </div>
                 <div className="col-sm-12 mb-6 mb-sm-0">
                   Create a password for your wallet: 
