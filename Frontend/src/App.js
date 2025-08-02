@@ -14,6 +14,7 @@ import Proposal from "./pages/proposal";
 // import "./components/Auth.css"
 import Register from "./pages/register";
 import Login from "./pages/login";
+import NetworkDetector from "./components/NetworkDetector";
 // import
 export const App = () =>{
     // Render the protected routes if authenticated
@@ -21,6 +22,7 @@ export const App = () =>{
 
 
       <div>
+        <NetworkDetector />
         <Routes>
           <Route element={<Layout />}>
           <Route index element={<Base />} />
